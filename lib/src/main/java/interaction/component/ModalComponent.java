@@ -2,6 +2,9 @@ package interaction.component;
 
 import org.javacord.api.interaction.ModalInteraction;
 
+/**
+ * A modal component.
+ */
 public abstract class ModalComponent extends AbstractComponent {
 
     /**
@@ -11,5 +14,10 @@ public abstract class ModalComponent extends AbstractComponent {
         super(customIdPrefix);
     }
 
+    /**
+     * Runs the component.
+     *
+     * @param interaction The interaction that triggered this component.
+     */
     public abstract void runModalComponent(final ModalInteraction interaction);
 }

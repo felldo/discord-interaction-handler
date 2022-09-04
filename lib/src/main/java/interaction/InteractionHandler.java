@@ -27,6 +27,9 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * This class is responsible for handling all interactions.
+ */
 @SuppressWarnings("unused")
 public class InteractionHandler {
 
@@ -105,6 +108,11 @@ public class InteractionHandler {
         return this;
     }
 
+    /**
+     * Attach the listeners to the interactions.
+     *
+     * @param api The {@link DiscordApi} to attach the listeners to.
+     */
     public void attachListeners(DiscordApi api) {
         api.addSlashCommandCreateListener(event -> {
             SlashCommandInteraction interaction = event.getSlashCommandInteraction();
@@ -274,18 +282,45 @@ public class InteractionHandler {
     // Application command methods
     //
 
+    /**
+     * Bulk overwrite all global application commands.
+     *
+     * @param api The api instance.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteGlobalApplicationCommands(DiscordApi api) {
         return bulkOverwriteGlobalApplicationCommands(api, s -> true);
     }
 
+    /**
+     * Bulk overwrite all global application commands with the given names.
+     *
+     * @param api          The api instance.
+     * @param commandNames The names of the commands to overwrite.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteGlobalApplicationCommands(DiscordApi api, String... commandNames) {
         return bulkOverwriteGlobalApplicationCommands(api, Arrays.asList(commandNames));
     }
 
+    /**
+     * Bulk overwrite all global application commands with the given names.
+     *
+     * @param api          The api instance.
+     * @param commandNames The names of the commands to overwrite.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteGlobalApplicationCommands(DiscordApi api, Collection<String> commandNames) {
         return bulkOverwriteGlobalApplicationCommands(api, abstractApplicationCommand -> commandNames.contains(abstractApplicationCommand.getName()));
     }
 
+    /**
+     * Bulk overwrite all global application commands with the given names.
+     *
+     * @param api                  The api instance.
+     * @param commandNamePredicate The predicate to check if the command should be overwritten.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteGlobalApplicationCommands(DiscordApi api, Predicate<AbstractApplicationCommand> commandNamePredicate) {
         Set<AbstractApplicationCommand> abstractApplicationCommands = new HashSet<>();
         abstractApplicationCommands.addAll(globalSlashCommands.values());
@@ -300,18 +335,45 @@ public class InteractionHandler {
                 .thenApply(applicationCommands -> handleBulkOverwrittenApplicationCommands(applicationCommands, globalApplicationCommands, "Global"));
     }
 
+    /**
+     * Bulk overwrite all guild application commands.
+     *
+     * @param server The server.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteServerApplicationCommands(Server server) {
         return bulkOverwriteServerApplicationCommands(server, s -> true);
     }
 
+    /**
+     * Bulk overwrite all guild application commands with the given names.
+     *
+     * @param server       The server.
+     * @param commandNames The names of the commands to overwrite.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteServerApplicationCommands(Server server, String... commandNames) {
         return bulkOverwriteServerApplicationCommands(server, Arrays.asList(commandNames));
     }
 
+    /**
+     * Bulk overwrite all guild application commands with the given names.
+     *
+     * @param server       The server.
+     * @param commandNames The names of the commands to overwrite.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteServerApplicationCommands(Server server, Collection<String> commandNames) {
         return bulkOverwriteServerApplicationCommands(server, abstractApplicationCommand -> commandNames.contains(abstractApplicationCommand.getName()));
     }
 
+    /**
+     * Bulk overwrite all guild application commands with the given names.
+     *
+     * @param server               The server.
+     * @param commandNamePredicate The predicate to check if the command should be overwritten.
+     * @return A future to check if the operation was successful and the registered application commands.
+     */
     public CompletableFuture<Set<ApplicationCommand>> bulkOverwriteServerApplicationCommands(Server server, Predicate<AbstractApplicationCommand> commandNamePredicate) {
         Set<AbstractApplicationCommand> abstractApplicationCommands = new HashSet<>();
         abstractApplicationCommands.addAll(serverSlashCommands.values());
@@ -326,6 +388,14 @@ public class InteractionHandler {
                 .thenApply(applicationCommands -> handleBulkOverwrittenApplicationCommands(applicationCommands, serverApplicationCommands, "Server"));
     }
 
+    /**
+     * Handle the bulk overwritten application commands.
+     *
+     * @param applicationCommands   The application commands.
+     * @param applicationCommandMap The application command map.
+     * @param globalOrServerString  The global or server string.
+     * @return The application commands.
+     */
     private Set<ApplicationCommand> handleBulkOverwrittenApplicationCommands(final Set<ApplicationCommand> applicationCommands, Map<Long, ApplicationCommand> applicationCommandMap, String globalOrServerString) {
         applicationCommands.stream()
                 .sorted(Comparator.comparing(o -> o.getClass().getInterfaces()[0].getSimpleName()))
@@ -341,6 +411,12 @@ public class InteractionHandler {
         return applicationCommands;
     }
 
+    /**
+     * Handles receiving a slash command.
+     *
+     * @param event   The event.
+     * @param command The command.
+     */
     private void handleCommand(final SlashCommandCreateEvent event, final SlashCommand command) {
         SlashCommandInteraction slashCommandInteraction = event.getSlashCommandInteraction();
 
@@ -351,11 +427,18 @@ public class InteractionHandler {
         command.runCommand(slashCommandInteraction);
     }
 
+    /**
+     * Log the received slash command with its arguments.
+     *
+     * @param slashCommandInteractionOptions The slash command interaction options.
+     * @return The log arguments.
+     */
     private String getLogArguments(final List<SlashCommandInteractionOption> slashCommandInteractionOptions) {
         return slashCommandInteractionOptions.isEmpty()
                 ? ""
                 : getSlashCommandArgumentString(slashCommandInteractionOptions);
     }
+
 
     private String getSlashCommandArgumentString(List<SlashCommandInteractionOption> options) {
         StringBuilder stringBuilder = new StringBuilder();

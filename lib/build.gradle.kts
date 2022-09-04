@@ -4,12 +4,6 @@ plugins {
     signing
 }
 
-
-group = "net.fellbaum"
-version = "1.0"
-description = "A Java library for conveniently working with interactions from Discord"
-
-
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -38,7 +32,7 @@ java {
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("DIH") {
             artifactId = "dih"
             from(components["java"])
             versionMapping {
@@ -52,7 +46,7 @@ publishing {
             pom {
                 name.set("Discord Interaction Handler")
                 description.set(rootProject.description)
-                url.set("https://github.com/KILLEliteMaste/DIH")
+                url.set("https://github.com/KILLEliteMaste/discord-interaction-handler")
 
                 licenses {
                     license {
@@ -72,28 +66,47 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:https://github.com/KILLEliteMaste/DIH.git")
-                    developerConnection.set("scm:git:git@github.com:KILLEliteMaste/DIH.git")
-                    url.set("https://github.com/KILLEliteMaste/DIH")
+                    connection.set("scm:git:https://github.com/KILLEliteMaste/discord-interaction-handler.git")
+                    developerConnection.set("scm:git:git@github.com:KILLEliteMaste/discord-interaction-handler.git")
+                    url.set("https://github.com/KILLEliteMaste/discord-interaction-handler")
                 }
             }
         }
     }
     repositories {
         maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
-            val releasesRepoUrl = uri(layout.buildDirectory.dir("repos/releases"))
-            val snapshotsRepoUrl = uri(layout.buildDirectory.dir("repos/snapshots"))
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
+            val isReleaseVersion = !version.toString().endsWith("SNAPSHOT")
+            name = "OSSRH"
+            url = if (isReleaseVersion) {
+                uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            } else {
+                uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            }
+            credentials {
+                username = findProperty("NEXUS_USERNAME") as String
+                password = findProperty("NEXUS_PASSWORD") as String
+            }
         }
     }
 }
 
 signing {
-    sign(publishing.publications["mavenJava"])
+    val signingKey = findProperty("SINGING_SECRET_KEY_RING_FILE") as String
+    val signingKeyId = findProperty("SIGNING_KEY_ID") as String
+    val signingPassword = findProperty("SIGNING_PASSWORD") as String
+
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications["DIH"])
 }
 
+/*
+tasks.withType(Javadoc::class.java) {
+    isFailOnError = true
+}*/
+
 tasks.javadoc {
+    isFailOnError = false
     if (JavaVersion.current().isJava9Compatible) {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }

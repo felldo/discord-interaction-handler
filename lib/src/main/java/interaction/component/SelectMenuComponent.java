@@ -2,6 +2,9 @@ package interaction.component;
 
 import org.javacord.api.interaction.SelectMenuInteraction;
 
+/**
+ * A select menu component.
+ */
 public abstract class SelectMenuComponent extends AbstractComponent {
 
     /**
@@ -11,5 +14,9 @@ public abstract class SelectMenuComponent extends AbstractComponent {
         super(customIdPrefix);
     }
 
+    /**
+     * Runs the component.
+     * @param interaction The interaction that triggered this component.
+     */
     public abstract void runSelectMenuComponent(SelectMenuInteraction interaction);
 }
