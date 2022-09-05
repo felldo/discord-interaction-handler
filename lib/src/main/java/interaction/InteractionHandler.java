@@ -35,41 +35,22 @@ public class InteractionHandler {
 
     private static final Logger LOGGER = LogManager.getLogger(InteractionHandler.class);
 
-    private final Map<String, MessageContextMenuCommand> globalMessageContextMenuCommands = new ConcurrentHashMap<>();
-    private final Map<String, UserContextMenuCommand> globalUserContextMenuCommands = new ConcurrentHashMap<>();
-    private final Map<String, SlashCommand> globalSlashCommands = new ConcurrentHashMap<>();
     private final Map<Long, ApplicationCommand> globalApplicationCommands = new ConcurrentHashMap<>();
-
-
-    private final Map<String, UserContextMenuCommand> serverUserContextMenuCommands = new ConcurrentHashMap<>();
-    private final Map<String, MessageContextMenuCommand> serverMessageContextMenuCommands = new ConcurrentHashMap<>();
-    private final Map<String, SlashCommand> serverSlashCommands = new ConcurrentHashMap<>();
     private final Map<Long, ApplicationCommand> serverApplicationCommands = new ConcurrentHashMap<>();
+
+
+    private final Map<String, SlashCommand> globalSlashCommands = new ConcurrentHashMap<>();
+    private final Map<String, SlashCommand> serverSlashCommands = new ConcurrentHashMap<>();
+
+    private final Map<String, MessageContextMenuCommand> globalMessageContextMenuCommands = new ConcurrentHashMap<>();
+    private final Map<String, MessageContextMenuCommand> serverMessageContextMenuCommands = new ConcurrentHashMap<>();
+    private final Map<String, UserContextMenuCommand> globalUserContextMenuCommands = new ConcurrentHashMap<>();
+    private final Map<String, UserContextMenuCommand> serverUserContextMenuCommands = new ConcurrentHashMap<>();
 
     //COMPONENTS
     private final Map<Pattern, ButtonComponent> buttonComponents = new ConcurrentHashMap<>();
     private final Map<Pattern, SelectMenuComponent> selectMenuComponents = new ConcurrentHashMap<>();
     private final Map<Pattern, ModalComponent> modalComponents = new ConcurrentHashMap<>();
-
-    /**
-     * Get a registered global slash command.
-     *
-     * @param name The name of the command.
-     * @return The {@link SlashCommand}.
-     */
-    public AbstractApplicationCommand getGlobalSlashCommand(String name) {
-        return globalSlashCommands.get(name);
-    }
-
-    /**
-     * Get a registered server slash command.
-     *
-     * @param name The name of the command.
-     * @return The {@link SlashCommand}.
-     */
-    public AbstractApplicationCommand getServerSlashCommand(String name) {
-        return serverSlashCommands.get(name);
-    }
 
     /**
      * Register an interaction to the handler.
@@ -86,7 +67,6 @@ public class InteractionHandler {
             modalComponents.put(Pattern.compile(comp.getCustomIdPrefix()), comp);
         } else if (interaction instanceof AbstractApplicationCommand abstractApplicationCommand) {
             if (abstractApplicationCommand instanceof SlashCommand s) {
-                System.out.println(s.getName());
                 (abstractApplicationCommand.isGlobal()
                         ? globalSlashCommands
                         : serverSlashCommands).put(abstractApplicationCommand.getName(), s);
@@ -109,7 +89,7 @@ public class InteractionHandler {
     }
 
     /**
-     * Attach the listeners to the interactions.
+     * Attach the interaction listeners to the {@link DiscordApi}.
      *
      * @param api The {@link DiscordApi} to attach the listeners to.
      */
@@ -240,7 +220,6 @@ public class InteractionHandler {
         for (int i = 0; i < slashCommandOptions.size(); i++) {
             SlashCommandOption slashCommandOption = slashCommandOptions.get(i);
             if (slashCommandOption.getName().equals(autocompleteInteraction.getFocusedOption().getName())) {
-                System.out.println(slashCommandOption.getName() + "\t" + autocompleteInteraction.getFocusedOption().getName() + "INDEX: " + i);
                 index = i;
                 break;
             }
