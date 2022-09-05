@@ -1,4 +1,4 @@
-package interaction.applicationcommand;
+package net.fellbaum.dih.interaction.applicationcommand;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

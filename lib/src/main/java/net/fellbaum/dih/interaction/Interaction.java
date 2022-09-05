@@ -1,4 +1,4 @@
-package interaction;
+package net.fellbaum.dih.interaction;
 
 /**
  * Interface for all interactions.

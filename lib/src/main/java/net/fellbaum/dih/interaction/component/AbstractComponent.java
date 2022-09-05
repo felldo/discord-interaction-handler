@@ -1,6 +1,6 @@
-package interaction.component;
+package net.fellbaum.dih.interaction.component;
 
-import interaction.Interaction;
+import net.fellbaum.dih.interaction.Interaction;
 
 /**
  * Abstract class for all components.

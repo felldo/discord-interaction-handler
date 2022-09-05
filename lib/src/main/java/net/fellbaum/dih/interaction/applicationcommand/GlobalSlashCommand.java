@@ -1,4 +1,4 @@
-package interaction.applicationcommand;
+package net.fellbaum.dih.interaction.applicationcommand;
 
 /**
  * Abstract class for all application commands.

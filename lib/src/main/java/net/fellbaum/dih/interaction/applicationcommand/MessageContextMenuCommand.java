@@ -1,4 +1,4 @@
-package interaction.applicationcommand;
+package net.fellbaum.dih.interaction.applicationcommand;
 
 import org.javacord.api.interaction.MessageContextMenu;
 import org.javacord.api.interaction.MessageContextMenuBuilder;

@@ -1,12 +1,12 @@
-package interaction;
+package net.fellbaum.dih.interaction;
 
-import interaction.applicationcommand.AbstractApplicationCommand;
-import interaction.applicationcommand.MessageContextMenuCommand;
-import interaction.applicationcommand.SlashCommand;
-import interaction.applicationcommand.UserContextMenuCommand;
-import interaction.component.ButtonComponent;
-import interaction.component.ModalComponent;
-import interaction.component.SelectMenuComponent;
+import net.fellbaum.dih.interaction.applicationcommand.MessageContextMenuCommand;
+import net.fellbaum.dih.interaction.applicationcommand.SlashCommand;
+import net.fellbaum.dih.interaction.applicationcommand.UserContextMenuCommand;
+import net.fellbaum.dih.interaction.component.ModalComponent;
+import net.fellbaum.dih.interaction.component.SelectMenuComponent;
+import net.fellbaum.dih.interaction.applicationcommand.AbstractApplicationCommand;
+import net.fellbaum.dih.interaction.component.ButtonComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;

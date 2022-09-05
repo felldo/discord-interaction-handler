@@ -1,6 +1,6 @@
-package interaction.applicationcommand;
+package net.fellbaum.dih.interaction.applicationcommand;
 
-import interaction.Interaction;
+import net.fellbaum.dih.interaction.Interaction;
 import org.javacord.api.interaction.ApplicationCommandBuilder;
 
 /**

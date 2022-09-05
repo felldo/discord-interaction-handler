@@ -1,4 +1,4 @@
-package interaction.applicationcommand;
+package net.fellbaum.dih.interaction.applicationcommand;
 
 import org.javacord.api.interaction.UserContextMenu;
 import org.javacord.api.interaction.UserContextMenuBuilder;

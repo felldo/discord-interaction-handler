@@ -1,4 +1,4 @@
-package interaction.applicationcommand;
+package net.fellbaum.dih.interaction.applicationcommand;
 
 /**
  * A server slash command.

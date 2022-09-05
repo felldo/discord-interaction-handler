@@ -1,4 +1,4 @@
-package interaction.component;
+package net.fellbaum.dih.interaction.component;
 
 import org.javacord.api.interaction.ButtonInteraction;
 
