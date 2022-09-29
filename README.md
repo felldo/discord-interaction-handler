@@ -103,6 +103,21 @@ public class Main {
 ````
 After that you are ready receive and handle the interactions based on what you have registered on the `InteractionHandler`.
 
+### Context menu commands
+It is pretty straight forward to use context menu commands. Simply extend ``MessageContextMenuCommand`` or ``UserContextMenuCommand`` to register and listen for a context menu command.
+
+````java
+public class ExampleMessageContextmenuCommand extends MessageContextMenuCommand {
+    public TestMessageContextMenuCommand() {
+        super("My Message Command", false);
+    }
+
+    @Override
+    public void runCommand(final MessageContextMenuInteraction messageContextMenuInteraction) {
+    }
+}
+````
+
 ### Using with ``Spring``
 If you are using `Spring` you can annotate all your components and commands with `@Component`.
 With a new Bean you can easily gather the instances of all your components and commands and register them to the `InteractionHandler`.
