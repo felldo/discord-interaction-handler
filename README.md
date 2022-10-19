@@ -10,6 +10,9 @@ help you with the management of slash commands and responding to any interaction
 ## Supported Discord libraries
 - [Javacord](https://github.com/Javacord/Javacord)
 
+## Important information
+- Currently, you have to overwrite server application commands on each startup for each server, otherwise the application commands on this server will be bulk overwritten with no application commands so the server has no longer access to them.
+
 ## Examples
 ### Creating a Slash Command:
 ````java
