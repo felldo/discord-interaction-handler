@@ -2,19 +2,20 @@ plugins {
     `java-library`
     `maven-publish`
     signing
+    id("com.github.ben-manes.versions") version "0.42.0"
 }
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
-    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
+    //maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 
-    implementation("org.javacord:javacord:3.6.0-SNAPSHOT")
+    implementation("org.javacord:javacord:3.6.0")
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
     implementation("org.apache.logging.log4j:log4j-api:2.18.0")
 }
@@ -28,6 +29,11 @@ tasks.named<Test>("test") {
 java {
     withJavadocJar()
     withSourcesJar()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 publishing {

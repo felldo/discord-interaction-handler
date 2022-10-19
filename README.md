@@ -1,6 +1,8 @@
 # Discord Interaction Handler
 ![Maven Central](https://img.shields.io/maven-central/v/net.fellbaum/dih?label=Discord%20Interaction%20handler)
 
+![Supported Java Version](https://img.shields.io/badge/Supported%20Java%20Version-17%2B-brightgreen)
+
 Discord Interaction Handler is a library for handling any kind of interaction that you can receive from Discord. 
 The issue is that Discord has a lot of different interaction types, and it's hard to handle them all. This library will 
 help you with the management of slash commands and responding to any interaction in an easy way. 

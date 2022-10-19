@@ -20,7 +20,14 @@ import org.javacord.api.interaction.SlashCommandInteractionOption;
 import org.javacord.api.interaction.SlashCommandOption;
 import org.javacord.api.interaction.UserContextMenuInteraction;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
@@ -101,6 +108,11 @@ public class InteractionHandler {
             } else if (serverApplicationCommands.containsKey(interaction.getCommandId()) && null != serverSlashCommands.get(interaction.getCommandName())) {
                 handleCommand(event, serverSlashCommands.get(interaction.getCommandName()));
             } else {
+                //Should be a server command. This should happen in case on startup the server commands
+                //were not overwritten for this server so the commands are unknown.
+                //TODO: Find a solution to avoid this problem without having to override the commands each startup.
+                //Maybe do not cache the commands by it's id but with the name once they are registered in the InteractionHandler
+                interaction.getServer().ifPresent(server -> interaction.getApi().bulkOverwriteServerApplicationCommands(server, Collections.emptySet()));
                 LOGGER.info("Received a slash command interaction for a not registered command");
             }
         });
@@ -124,6 +136,8 @@ public class InteractionHandler {
             } else if (serverApplicationCommands.containsKey(interaction.getCommandId()) && null != serverUserContextMenuCommands.get(interaction.getCommandName())) {
                 serverUserContextMenuCommands.get(interaction.getCommandName()).runCommand(interaction);
             } else {
+                //TODO: Same here
+                interaction.getServer().ifPresent(server -> interaction.getApi().bulkOverwriteServerApplicationCommands(server, Collections.emptySet()));
                 LOGGER.info("Received a user context menu command interaction for a not registered command");
             }
         });
@@ -135,6 +149,8 @@ public class InteractionHandler {
             } else if (serverApplicationCommands.containsKey(interaction.getCommandId()) && null != serverMessageContextMenuCommands.get(interaction.getCommandName())) {
                 serverMessageContextMenuCommands.get(interaction.getCommandName()).runCommand(interaction);
             } else {
+                //TODO: Same here
+                interaction.getServer().ifPresent(server -> interaction.getApi().bulkOverwriteServerApplicationCommands(server, Collections.emptySet()));
                 LOGGER.info("Received a message context menu command interaction for a not registered command");
             }
         });
@@ -380,7 +396,6 @@ public class InteractionHandler {
                 .sorted(Comparator.comparing(o -> o.getClass().getInterfaces()[0].getSimpleName()))
                 .forEach(applicationCommand -> {
                     applicationCommandMap.put(applicationCommand.getId(), applicationCommand);
-                    //TODO: CHANGE LOG LEVEL TO DEBUG
                     LOGGER.debug("Registered {} {} command with ID <{}> and name <{}>",
                             globalOrServerString,
                             applicationCommand.getClass().getInterfaces()[0].getSimpleName(),
@@ -417,7 +432,6 @@ public class InteractionHandler {
                 ? ""
                 : getSlashCommandArgumentString(slashCommandInteractionOptions);
     }
-
 
     private String getSlashCommandArgumentString(List<SlashCommandInteractionOption> options) {
         StringBuilder stringBuilder = new StringBuilder();
