@@ -2,22 +2,20 @@ plugins {
     `java-library`
     `maven-publish`
     signing
-    id("com.github.ben-manes.versions") version "0.42.0"
+    id("com.github.ben-manes.versions") version "0.44.0"
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
-    //maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
 
-    implementation("org.javacord:javacord:3.6.0")
+    implementation("org.javacord:javacord:3.7.0")
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
-    implementation("org.apache.logging.log4j:log4j-api:2.18.0")
+    implementation("org.apache.logging.log4j:log4j-api:2.19.0")
 }
 
 tasks.named<Test>("test") {
