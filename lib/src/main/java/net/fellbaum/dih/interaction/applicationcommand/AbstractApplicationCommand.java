@@ -6,7 +6,7 @@ import org.javacord.api.interaction.ApplicationCommandBuilder;
 /**
  * Abstract class for all application commands.
  */
-public abstract sealed class AbstractApplicationCommand implements Interaction permits MessageContextMenuCommand, SlashCommand, UserContextMenuCommand {
+public abstract sealed class AbstractApplicationCommand implements Interaction permits SlashCommand, MessageContextMenuCommand, UserContextMenuCommand {
 
     /**
      * The name of the command.

@@ -3,7 +3,7 @@ package net.fellbaum.dih.interaction.applicationcommand;
 /**
  * A server slash command.
  */
-public abstract class ServerSlashCommand extends SlashCommand {
+public abstract non-sealed class ServerSlashCommand extends SlashCommand {
 
     /**
      * The server slash command builder.

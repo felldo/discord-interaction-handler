@@ -3,7 +3,7 @@ package net.fellbaum.dih.interaction.applicationcommand;
 /**
  * Abstract class for all application commands.
  */
-public abstract class GlobalSlashCommand extends SlashCommand {
+public abstract non-sealed class GlobalSlashCommand extends SlashCommand {
 
     /**
      * Creates a new application command.

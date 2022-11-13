@@ -101,12 +101,20 @@ public class InteractionHandler {
      * @param api The {@link DiscordApi} to attach the listeners to.
      */
     public void attachListeners(DiscordApi api) {
+        //Check if a server leaves and cleanup server application commands
+        api.addServerLeaveListener(event -> {
+            serverApplicationCommands.remove(event.getServer().getId());
+        });
+
         api.addSlashCommandCreateListener(event -> {
-            SlashCommandInteraction interaction = event.getSlashCommandInteraction();
-            if (globalApplicationCommands.containsKey(interaction.getCommandId()) && null != globalSlashCommands.get(interaction.getCommandName())) {
-                handleCommand(event, globalSlashCommands.get(interaction.getCommandName()));
-            } else if (serverApplicationCommands.containsKey(interaction.getCommandId()) && null != serverSlashCommands.get(interaction.getCommandName())) {
-                handleCommand(event, serverSlashCommands.get(interaction.getCommandName()));
+            final SlashCommandInteraction interaction = event.getSlashCommandInteraction();
+            final long commandId = interaction.getCommandId();
+            final String commandName = interaction.getCommandName();
+
+            if (globalApplicationCommands.containsKey(commandId) && null != globalSlashCommands.get(commandName)) {
+                handleCommand(event, globalSlashCommands.get(commandName));
+            } else if (serverApplicationCommands.containsKey(commandId) && null != serverSlashCommands.get(commandName)) {
+                handleCommand(event, serverSlashCommands.get(commandName));
             } else {
                 //Should be a server command. This should happen in case on startup the server commands
                 //were not overwritten for this server so the commands are unknown.
@@ -118,7 +126,7 @@ public class InteractionHandler {
         });
 
         api.addAutocompleteCreateListener(event -> {
-            AutocompleteInteraction autocompleteInteraction = event.getAutocompleteInteraction();
+            final AutocompleteInteraction autocompleteInteraction = event.getAutocompleteInteraction();
 
             if (globalSlashCommands.containsKey(autocompleteInteraction.getCommandName())) {
                 executeSlashCommandAutocompletionInteractionHandler(globalSlashCommands, autocompleteInteraction);
@@ -130,11 +138,14 @@ public class InteractionHandler {
         });
 
         api.addUserContextMenuCommandListener(event -> {
-            UserContextMenuInteraction interaction = event.getUserContextMenuInteraction();
-            if (globalApplicationCommands.containsKey(interaction.getCommandId()) && null != globalUserContextMenuCommands.get(interaction.getCommandName())) {
-                globalUserContextMenuCommands.get(interaction.getCommandName()).runCommand(interaction);
-            } else if (serverApplicationCommands.containsKey(interaction.getCommandId()) && null != serverUserContextMenuCommands.get(interaction.getCommandName())) {
-                serverUserContextMenuCommands.get(interaction.getCommandName()).runCommand(interaction);
+            final UserContextMenuInteraction interaction = event.getUserContextMenuInteraction();
+            final long commandId = interaction.getCommandId();
+            final String commandName = interaction.getCommandName();
+
+            if (globalApplicationCommands.containsKey(commandId) && null != globalUserContextMenuCommands.get(commandName)) {
+                globalUserContextMenuCommands.get(commandName).runCommand(interaction);
+            } else if (serverApplicationCommands.containsKey(commandId) && null != serverUserContextMenuCommands.get(commandName)) {
+                serverUserContextMenuCommands.get(commandName).runCommand(interaction);
             } else {
                 //TODO: Same here
                 interaction.getServer().ifPresent(server -> interaction.getApi().bulkOverwriteServerApplicationCommands(server, Collections.emptySet()));
@@ -143,11 +154,14 @@ public class InteractionHandler {
         });
 
         api.addMessageContextMenuCommandListener(event -> {
-            MessageContextMenuInteraction interaction = event.getMessageContextMenuInteraction();
-            if (globalApplicationCommands.containsKey(interaction.getCommandId()) && null != globalMessageContextMenuCommands.get(interaction.getCommandName())) {
-                globalMessageContextMenuCommands.get(interaction.getCommandName()).runCommand(interaction);
-            } else if (serverApplicationCommands.containsKey(interaction.getCommandId()) && null != serverMessageContextMenuCommands.get(interaction.getCommandName())) {
-                serverMessageContextMenuCommands.get(interaction.getCommandName()).runCommand(interaction);
+            final MessageContextMenuInteraction interaction = event.getMessageContextMenuInteraction();
+            final long commandId = interaction.getCommandId();
+            final String commandName = interaction.getCommandName();
+
+            if (globalApplicationCommands.containsKey(commandId) && null != globalMessageContextMenuCommands.get(commandName)) {
+                globalMessageContextMenuCommands.get(commandName).runCommand(interaction);
+            } else if (serverApplicationCommands.containsKey(commandId) && null != serverMessageContextMenuCommands.get(commandName)) {
+                serverMessageContextMenuCommands.get(commandName).runCommand(interaction);
             } else {
                 //TODO: Same here
                 interaction.getServer().ifPresent(server -> interaction.getApi().bulkOverwriteServerApplicationCommands(server, Collections.emptySet()));
@@ -331,7 +345,7 @@ public class InteractionHandler {
     }
 
     /**
-     * Bulk overwrite all guild application commands.
+     * Bulk overwrite all registered guild application commands.
      *
      * @param server The server.
      * @return A future to check if the operation was successful and the registered application commands.

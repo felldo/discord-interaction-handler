@@ -7,24 +7,25 @@ import org.javacord.api.interaction.*;
 /**
  * A slash command.
  */
-public abstract non-sealed class SlashCommand extends AbstractApplicationCommand {
+public abstract sealed class SlashCommand extends AbstractApplicationCommand permits GlobalSlashCommand, ServerSlashCommand {
 
     private static final Logger LOGGER = LogManager.getLogger(SlashCommand.class);
 
-    final SlashCommandBuilder slashCommandBuilder;
+    private final SlashCommandBuilder slashCommandBuilder;
 
     /**
-     *  Creates a new slash command.
+     * Creates a new slash command.
      *
-     * @param name The name of the command.
+     * @param name        The name of the command.
      * @param description The description of the command.
-     * @param global Whether the command is global or not.
+     * @param global      Whether the command is global or not.
      */
     protected SlashCommand(final String name, final String description, final boolean global) {
         super(name, global);
         this.slashCommandBuilder = org.javacord.api.interaction.SlashCommand.with(name, description);
     }
 
+    @Override
     public SlashCommandBuilder getApplicationCommandBuilder() {
         return slashCommandBuilder;
     }

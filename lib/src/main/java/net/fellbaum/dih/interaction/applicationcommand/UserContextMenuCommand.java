@@ -12,7 +12,7 @@ public abstract non-sealed class UserContextMenuCommand extends AbstractApplicat
     /**
      * The user context menu builder.
      */
-    final UserContextMenuBuilder userContextMenuBuilder;
+    private final UserContextMenuBuilder userContextMenuBuilder;
 
     /**
      * The user context menu command.
