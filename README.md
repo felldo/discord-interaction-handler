@@ -145,8 +145,8 @@ It is pretty straight forward to use context menu commands. Simply extend ``Mess
 or ``UserContextMenuCommand`` to register and listen for a context menu command.
 
 ````java
-public class ExampleMessageContextmenuCommand extends MessageContextMenuCommand {
-    public TestMessageContextMenuCommand() {
+public class ExampleMessageContextMenuCommand extends MessageContextMenuCommand {
+    public ExampleMessageContextMenuCommand() {
         super("My Message Command", false);
     }
 

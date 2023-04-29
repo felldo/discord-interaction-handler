@@ -2,7 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
-    id("com.github.ben-manes.versions") version "0.44.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
 }
 
 repositories {
@@ -10,12 +10,11 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    implementation("org.javacord:javacord:3.8.0")
+    implementation("org.apache.logging.log4j:log4j-api:2.20.0")
 
-    implementation("org.javacord:javacord:3.7.0")
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
-    implementation("org.apache.logging.log4j:log4j-api:2.19.0")
+    // Use JUnit Jupiter for testing.
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 }
 
 tasks.named<Test>("test") {
@@ -55,7 +54,7 @@ publishing {
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                     }
                 }
 
@@ -96,9 +95,9 @@ publishing {
 }
 
 signing {
-    val signingKey = findProperty("SINGING_SECRET_KEY_RING_FILE") as String
-    val signingKeyId = findProperty("SIGNING_KEY_ID") as String
-    val signingPassword = findProperty("SIGNING_PASSWORD") as String
+    val signingKey = findProperty("DIH_SINGING_SECRET_KEY_RING_FILE") as String
+    val signingKeyId = findProperty("DIH_SIGNING_KEY_ID") as String
+    val signingPassword = findProperty("DIH_SIGNING_PASSWORD") as String
 
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign(publishing.publications["DIH"])
