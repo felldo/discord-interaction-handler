@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.javacord:javacord:3.8.0")
+    api("org.javacord:javacord-api:3.8.0")
     implementation("org.apache.logging.log4j:log4j-api:2.20.0")
 
     // Use JUnit Jupiter for testing.
@@ -49,7 +49,7 @@ publishing {
             pom {
                 name.set("Discord Interaction Handler")
                 description.set(rootProject.description)
-                url.set("https://github.com/KILLEliteMaste/discord-interaction-handler")
+                url.set("https://github.com/felldo/discord-interaction-handler")
 
                 licenses {
                     license {
@@ -61,17 +61,17 @@ publishing {
                 inceptionYear.set("2022")
                 developers {
                     developer {
-                        id.set("KILLEliteMaste")
+                        id.set("felldo")
                         name.set("Dominic Fellbaum")
                         email.set("d.fellbaum@hotmail.de")
-                        url.set("https://github.com/KILLEliteMaste")
+                        url.set("https://github.com/felldo")
                         timezone.set("Europe/Berlin")
                     }
                 }
                 scm {
-                    connection.set("scm:git:https://github.com/KILLEliteMaste/discord-interaction-handler.git")
-                    developerConnection.set("scm:git:git@github.com:KILLEliteMaste/discord-interaction-handler.git")
-                    url.set("https://github.com/KILLEliteMaste/discord-interaction-handler")
+                    connection.set("scm:git:https://github.com/felldo/discord-interaction-handler.git")
+                    developerConnection.set("scm:git:git@github.com:felldo/discord-interaction-handler.git")
+                    url.set("https://github.com/felldo/discord-interaction-handler")
                 }
             }
         }
